@@ -15,7 +15,6 @@ author:
       - name: 
         city: 
         url: 
-output-dir: docs
 logo: content/logo.png
 footer: "Juan Pablo Carranza"
 licence: "CC BY-NC-SA" 
@@ -26,6 +25,10 @@ title-slide-attributes:
 include-after-body: add-custom-footer.html
 citation: true
 ---
+
+#  {#slide1-id data-menu-title="Quizz"}
+![](content/qr.png){fig-align="center"}
+
 
 #  {#slide2-id data-menu-title="Objetivos de la clase"}
 
