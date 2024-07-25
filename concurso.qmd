@@ -1,0 +1,165 @@
+---
+title: "Concurso Finanzas Públicas"
+subtite: "Profesor Adjunto DS"
+format: 
+  revealjs:
+    theme: jpc.scss
+    scrollable: true
+editor: visual
+author:
+  - name: "Juan Pablo Carranza"
+    id: jb
+    orcid: 0000-0003-4793-1323
+    email: juan.carranza@unc.edu.ar
+    affiliation: 
+      - name: 
+        city: 
+        url: 
+output-dir: docs
+logo: content/logo.png
+footer: "Juan Pablo Carranza"
+licence: "CC BY-NC-SA" 
+bibliography: references.bib
+csl: apa.csl
+title-slide-attributes: 
+  data-footer: "CCBY-NC-SA"
+include-after-body: add-custom-footer.html
+citation: true
+---
+
+#  {#slide2-id data-menu-title="Objetivos de la clase"}
+
+**Los sistemas jubilatorios: alternativas para su financiamiento**
+
+Objetivos de la clase:
+
+-   Reconocer los diferentes sistemas de contingencia para la vejez.
+-   Comprender las principales características del sistema jubilatorio en Argentina en relación a:
+    -   su evolución histórica
+    -   las reformas más relevantes que se implementaron y sus principales problemas.
+    -   las consecuencias sobre el federalismo fiscal.
+
+#  {#slide3-id data-menu-title="Tipos de sistemas jubilatorios"}
+
+Existen dos grandes tipos de **sistemas jubilatorios**.
+
+![](content/sistemas.png){fig-align="center"}
+
+#  {#slide4-id data-menu-title="Elementos para el analisis de los sistemas jubilatorios"}
+
+### **Elementos para el análisis de sistemas jubilatorios**:
+
+[@bertin_como_2022]
+
+![](content/caracteristicas.png){fig-align="center" width="952"}
+
+#  {#slide5-id data-menu-title="El sistema jubilatorio en AR - 1"}
+
+**Las reformas al sistema jubilatorio en Argentina** [@garriga_1] [@garriga_rosales]
+
+![](content/timeline.png){fig-align="center" width="1100"}
+
+#  {#slide6-id data-menu-title="El sistema jubilatorio en AR - 1"}
+
+**Impacto fiscal del régimen previsional en la nación**
+
+![](content/impacto%20fiscal.png){fig-align="center" width="1100"}
+
+#  {#slide7-id data-menu-title="Inequidades territoriales - 1"}
+
+**Inequidades territoriales del sistema previsional**
+
+Porcentaje de beneficios no contributivos por provincia.
+
+```{r include=TRUE, echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.height=5.5, fig.width=12}
+rm(list=ls())
+suppressPackageStartupMessages(library(tidyverse))
+datos = read.csv("porcentaje_no_moratoria_pcia.csv")
+suppressPackageStartupMessages(library(sf))
+mapa = suppressMessages(st_read("provincias_sin_antartida.geojson", quiet = TRUE))
+suppressPackageStartupMessages(library(mapview))
+mapa = rename(mapa, Provincia = NOMBRE)
+mapa$Provincia = ifelse(mapa$Provincia == "Ciudad Autónoma de Buenos Aires",
+                        "CABA", mapa$Provincia)
+mapa$Provincia = ifelse(mapa$Provincia == "Tierra del Fuego, Antártida e Islas del Atlántico Sur",
+                        "Tierra del Fuego", mapa$Provincia)
+mapa = left_join(mapa, datos)
+mapa$Moratoria = 1 - mapa$Regulares
+mapa$Moratoria = round(mapa$Moratoria, 2)
+mapview(mapa, zcol = "Moratoria", at = c(0,0.5,0.6,0.7,1),
+        col.regions = rev(RColorBrewer::brewer.pal(4, "Spectral")))
+```
+
+#  {#slide8-id data-menu-title="Inequidades territoriales - 2"}
+
+**Inequidades territoriales del sistema previsional**
+
+Tasa de sustitución media por provincia.
+
+```{r include=TRUE, echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.height=5.5, fig.width=12}
+datos = read.csv("cociente_haberes_salarios_pcias.csv")
+datos$Tasa = round(datos$Haber / datos$Salario, 2)
+mapa = left_join(mapa, datos)
+mapview(mapa, zcol = "Tasa", at = c(0,0.7,0.8,0.9,1),
+        col.regions = rev(RColorBrewer::brewer.pal(4, "Spectral")))
+```
+
+#  {#slide9-id data-menu-title="Proyecciones - 1"}
+
+**Proyección de escenarios financieros** [@capello]. Evolución del escenario base según supuestos demográficos:
+
+![](content/proyecciones_1.png){fig-align="center"}
+
+#  {#slide10-id data-menu-title="Proyecciones - 2"}
+
+**Proyección de escenarios financieros** [@capello]. Se amplia la cobertura al 100% de la población en edad jubilatoria (PUAM):
+
+::: {layout-ncol="2"}
+![Escenario base](content/proyecciones_1.png){fig-align="center"}
+
+![Escenario modificado](content/proyecciones_2.png){fig-align="center"}
+:::
+
+#  {#slide11-id data-menu-title="Proyecciones - 3"}
+
+**Proyección de escenarios financieros** [@capello]. Se amplia la cobertura al 100% de la población en edad jubilatoria (Moratorias):
+
+::: {layout-ncol="2"}
+![Escenario base](content/proyecciones_1.png){fig-align="center"}
+
+![Escenario modificado](content/proyecciones_3.png){fig-align="center"}
+:::
+
+#  {#slide12-id data-menu-title="Proyecciones - 4"}
+
+**Proyección de escenarios financieros** [@capello]. Bono de longevidad (+5 años en edad jubilatoria):
+
+::: {layout-ncol="2"}
+![Escenario base](content/proyecciones_1.png){fig-align="center"}
+
+![Escenario modificado](content/proyecciones_4.png){fig-align="center"}
+:::
+
+#  {#slide13-id data-menu-title="Proyecciones - 5"}
+
+**Proyección de escenarios financieros** [@capello]. Se reduce la PUAM del 80% al 70% del haber mínimo (s/ escenario base):
+
+::: {layout-ncol="2"}
+![Escenario base](content/proyecciones_1.png){fig-align="center"}
+
+![Escenario modificado](content/proyecciones_5.png){fig-align="center"}
+:::
+
+#  {data-menu-title="Proyecciones - 5"}
+
+**Qué aprendimos?**
+
+-   Teniendo en cuenta la magnitud del FGS, podemos afirmar que el actual régimen jubilatorio en Argentina se encuadra dentro de un sistema mixto de capitalización y reparto. **(V/F)**. Justifique su respuesta.
+
+-   La reforma de 1993 resolvió todos los problemas relacionados al sistema jubilatorio anterior. **(V/F)**. Justifique su respuesta.
+
+-   Uno de los principales limitantes para la reforma del sistema jubilatorio está directamente relacionado con la ley de coparticipación de impuestos. **(V/F)**. Justifique su respuesta.
+
+#  {data-menu-title="Referencias"}
+
+**Referencias.**
